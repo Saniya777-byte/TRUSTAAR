@@ -88,7 +88,7 @@ Each product is clearly tagged as:
 
 ---
 
-## 5. Trustaar Score System (Core Innovation)
+## 5. Sellora Score System (Core Innovation)
 
 Instead of star ratings:
 - Algorithm-based Trust Score (0–100)
@@ -153,5 +153,5 @@ Fake reviews are completely removed.
 “People don’t need more choices.
 They need more confidence.”
 
-TRUSTAAR exists to make shopping **honest, local, and regret-free**.
+Sellora exists to make shopping **honest, local, and regret-free**.
 
