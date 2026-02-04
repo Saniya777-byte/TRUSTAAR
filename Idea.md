@@ -133,7 +133,7 @@ Fake reviews are completely removed.
 - Android app
 - Local sellers (single city)
 - Return/refurbished category (electronics + home)
-- Trustaar Score v1
+- Sellora Score v1
 - Manual verification
 
 ---
