@@ -1,9 +1,6 @@
 const express = require("express");
 const { protect, admin } = require("../middleware/authMiddleware");
-const {
-  createProduct,
-  getProducts
-} = require("../controllers/productController");
+const { createProduct, getProducts } = require("../controllers/productController");
 
 const router = express.Router();
 
