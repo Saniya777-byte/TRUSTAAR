@@ -25,12 +25,45 @@ exports.createProduct = async (req, res) => {
 
 // Get All Products
 exports.getProducts = async (req, res) => {
+  try {
+    const keyword = req.query.keyword
+      ? {
+          name: {
+            $regex: req.query.keyword,
+            $options: "i"
+          }
+        }
+      : {};
 
-  const products = await Product.find();
+    const category = req.query.category
+      ? { category: req.query.category }
+      : {};
 
-  res.json(products);
+    const pageSize = 5;
+    const page = Number(req.query.page) || 1;
+
+    const count = await Product.countDocuments({
+      ...keyword,
+      ...category
+    });
+
+    const products = await Product.find({
+      ...keyword,
+      ...category
+    })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+
+    res.json({
+      products,
+      page,
+      pages: Math.ceil(count / pageSize)
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
-
 
 // Get Single Product
 exports.getProductById = async (req, res) => {
