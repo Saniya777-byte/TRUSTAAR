@@ -4,7 +4,16 @@ const Order = require("../models/Order");
 exports.createOrder = async (req, res) => {
   try {
 
-    const { orderItems, totalPrice } = req.body;
+    const { orderItems } = req.body;
+
+    if (!orderItems || orderItems.length === 0) {
+      return res.status(400).json({ message: "No order items" });
+    }
+
+    const totalPrice = orderItems.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
 
     const order = await Order.create({
       user: req.user._id,
