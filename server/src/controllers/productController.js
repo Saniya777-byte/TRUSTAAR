@@ -28,6 +28,7 @@ exports.createProduct = async (req, res) => {
 // Get All Products
 exports.getProducts = async (req, res) => {
   try {
+    // Search by keyword (name)
     const keyword = req.query.keyword
       ? {
           name: {
@@ -37,22 +38,35 @@ exports.getProducts = async (req, res) => {
         }
       : {};
 
+    // Filter by category
     const category = req.query.category
       ? { category: req.query.category }
       : {};
 
+    // Pagination
     const pageSize = 5;
     const page = Number(req.query.page) || 1;
 
+    // Sorting
+    let sort = {};
+    if (req.query.sort === "price") {
+      sort = { price: 1 }; // low to high
+    } else if (req.query.sort === "-price") {
+      sort = { price: -1 }; // high to low
+    }
+
+    // Count total products
     const count = await Product.countDocuments({
       ...keyword,
       ...category
     });
 
+    // Get products
     const products = await Product.find({
       ...keyword,
       ...category
     })
+      .sort(sort)
       .limit(pageSize)
       .skip(pageSize * (page - 1));
 
@@ -66,24 +80,6 @@ exports.getProducts = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-// Get Single Product
-exports.getProductById = async (req, res) => {
-  try {
-
-    const product = await Product.findById(req.params.id);
-
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-
-    res.json(product);
-
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 
 // Update Product
 exports.updateProduct = async (req, res) => {
